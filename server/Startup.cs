@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
+using server.Hubs;
 
 namespace server
 {
@@ -25,8 +26,11 @@ namespace server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMicrosoftWebApiAuthentication(Configuration, "AzureAdB2C");
             services.AddControllers();
+
+            services.AddMicrosoftWebApiAuthentication(Configuration, "AzureAdB2C");
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +51,7 @@ namespace server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<TestHub>("/TestHub");
             });
         }
     }

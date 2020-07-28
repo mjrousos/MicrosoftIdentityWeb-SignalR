@@ -18,10 +18,6 @@ namespace server.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        public WeatherForecastController()
-        {
-        }
-
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

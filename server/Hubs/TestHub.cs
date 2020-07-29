@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
 using System.Threading.Tasks;
 
 namespace server.Hubs
 {
+    // An authorize attribute on a SignalR hub will require that
+    // connecting users be authenticated (just like a controller)
+    [Authorize]
     public class TestHub: Hub
     {
         private ILogger<TestHub> Logger { get; }
@@ -17,7 +19,8 @@ namespace server.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            Logger.LogInformation($"User connected to SignalR test hub: {Context.User.Identity.Name}");
+            // If an authenticated user connects, user information is available in Context.User and Context.UserIdentifier
+            Logger.LogInformation($"User connected to SignalR test hub: {Context.UserIdentifier ?? "<Anonymous>"}");
 
             await Clients.Caller.SendAsync("MessageFromServer", "ok");
 

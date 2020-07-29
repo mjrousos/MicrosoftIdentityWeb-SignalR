@@ -26,7 +26,10 @@ namespace client
         {
             var client = new HttpClient();
             var message = new HttpRequestMessage(HttpMethod.Get, "https://localhost:5001/WeatherForecast");
+
+            // The web API expects auth tokens to be present in an authorization header
             message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Configuration["jwt"]);
+
             var response = await client.SendAsync(message);
             Console.WriteLine($"Response: {response.StatusCode}");
         }
